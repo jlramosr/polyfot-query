@@ -154,8 +154,10 @@
 
       _computeValue(checkChange) {
         let value = "";
+        const checks = Polymer.dom(this.$.checks).children;
         for (let check of checks) {
           if (check.label) {
+            const selector = '#check' + check.label;
             const checkbox = Polymer.dom(this.$.checks).querySelector(selector);
             if (checkbox.checked) {
               value += "1";
