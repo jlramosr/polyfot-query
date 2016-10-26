@@ -1,0 +1,145 @@
+<link rel="import" href="polyfot-query-field.html">
+<link rel="import" href="polyfot-query-checks.html">
+<link rel="import" href="polyfot-query-rule.html">
+<link rel="import" href="polyfot-query-buttons.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<!--
+`polyfot-query`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        margin: 2px auto;
+        padding: 2px auto;
+      }
+      h5 {
+        margin: 4px auto;
+      }
+    </style>
+
+    <h5>Please enter the desired search criteria:</h5>
+    <polyfot-query-field
+      label='Team'
+      value='{{team1}}'
+      icon='team'>
+    </polyfot-query-field>
+    <polyfot-query-field
+      label='Opponent Team'
+      value='{{team2}}'
+      icon='opponent'>
+    </polyfot-query-field>
+    <polyfot-query-checks
+      not-all-unchecked
+      value="{{lv}}"
+      labels="{{labels1}}"
+      icon='lv'>
+    </polyfot-query-checks>
+    <polyfot-query-checks
+      not-all-unchecked
+      value="{{wdl}}"
+      labels="{{labels2}}"
+      icon='wdl'>
+    </polyfot-query-checks>
+    <polyfot-query-rule
+      numeric between
+      label0="Goals Rule"
+      label1="Number of goals"
+      value0="{{goalsRule}}"
+      value1="{{goals1}}"
+      value2="{{goals2}}"
+      icon='goal'>
+    </polyfot-query-rule>
+    <polyfot-query-rule
+      numeric between
+      label0="Diff. Goals Rule"
+      label1="Number of goals"
+      value0="{{diffGoalsRule}}"
+      value1="{{diffGoals1}}"
+      value2="{{diffGoals2}}"
+      icon='diff-goal'>
+    </polyfot-query-rule>
+    <polyfot-query-rule
+      numeric between
+      label0="Opponent Goals Rule"
+      label1="Number of goals"
+      value0="{{oppGoalsRule}}"
+      value1="{{oppGoals1}}"
+      value2="{{oppGoals2}}"
+      icon='opp-goal'>
+    </polyfot-query-rule>
+    <polyfot-query-buttons></polyfot-query-buttons>
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query',
+
+      listeners: {
+        'polyfot-search': '_search',
+        'polyfot-clear': '_clear'
+      },
+
+      properties: {
+        team1: String,
+        team2: String,
+        vl: {
+          type: String,
+          value: "11"
+        },
+        wdl: {
+          type: String,
+          value: "111"
+        },
+        goalsRule: String,
+        goals1: Number,
+        goals2: Number,
+        diffGoalsRule: String,
+        diffGoals1: Number,
+        diffGoals2: Number,
+        oppGoalsRule: String,
+        oppGoals1: Number,
+        oppGoals2: Number,
+        labels1: {
+          type: Array,
+          value: () => {
+            return ['Local','Visitor'];
+          },
+          readOnly: true
+        },
+        labels2: {
+          type: Array,
+          value: () => {
+            return ['Wins','Draws', 'Losses'];
+          },
+          readOnly: true
+        },
+        searchText: {
+          type: String,
+          value: ''
+        }
+      },
+
+      _search() {
+        console.log("SEARCH");
+      },
+
+      _clear() {
+        console.log("CLEAR");
+      }
+
+    });
+  }());
+  </script>
+</dom-module>

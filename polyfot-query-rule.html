@@ -1,0 +1,214 @@
+<link rel="import" href="polyfot-query-common-icon.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+
+<!--
+`polyfot-query-field`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query-rule">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+      }
+      paper-item {
+        cursor: pointer;
+      }
+      paper-listbox {
+        --paper-listbox: {
+          font-size: 6px;
+        }
+      }
+      paper-listbox paper-item {
+        min-height: 22px;
+        font-size: 13px;
+      }
+      paper-dropdown-menu {
+        margin-right: 12px;
+        --paper-input-container-input: {
+          font-size: 13px;
+        }
+      }
+      paper-input {
+        margin-right: 12px;
+        --paper-input-container-label: {
+          font-size: 16px;
+        }
+      }
+      :last-child, .no-margin {
+        margin-right: 0px !important;
+      }
+      .horizontal {
+        @apply(--layout-horizontal);
+      }
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <polyfot-query-common-icon icon="{{icon}}" opacity="{{!value0}}">
+    </polyfot-query-common-icon>
+    <paper-dropdown-menu label="{{label0}}" value="{{value0}}">
+      <paper-listbox class="dropdown-content" id='ruleList'>
+        <paper-item></paper-item>
+        <paper-item>greater than</paper-item>
+        <paper-item>greater than or equal to</paper-item>
+        <paper-item>equal to</paper-item>
+        <paper-item>less than or equal to</paper-item>
+        <paper-item>less than</paper-item>
+        <template is="dom-if" if="{{between}}">
+          <paper-item>between</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
+    <div class='horizontal flexchild'>
+      <paper-input
+        label="{{label1}}"
+        auto-validate
+        disabled
+        id='field1'
+        value="{{value1}}"
+        class$="{{_getState(showField2,'no-margin')}}">
+      </paper-input>
+      <template is="dom-if" if="{{showField2}}">
+        <paper-input
+          label="Max"
+          auto-validate
+          id='field2'
+          value="{{value2}}"
+          class='no-margin'>
+        </paper-input>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query-rule',
+
+      listeners: {
+        'iron-select': '_selectorSelect',
+        'iron-activate': '_selectorActivate'
+      },
+
+      properties: {
+        label0: {
+          type: String,
+          value: ''
+        },
+        label1: {
+          type: String,
+          value: ''
+        },
+        value0: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        value1: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        value2: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        icon: {
+          type: String,
+          value: '',
+        },
+        numeric: {
+          type: Boolean,
+          value: false,
+        },
+        between: {
+          type: Boolean,
+          value: false,
+        }
+      },
+
+      attached() {
+        this.showField2 = false;
+        if (this.numeric) {
+          this.$.field1.pattern="[0-9]*";
+          this.$.field1.errorMessage="Numbers only!";
+          this.$.field1.maxlength="3";
+          if (this.$.field2) {
+            this.$.field2.pattern="[0-9]*";
+            this.$.field2.errorMessage="Numbers only!";
+            this.$.field2.maxlength="3";
+          }
+        }
+      },
+
+      _getState(condition, _class) {
+        return condition ? '' : _class;
+      },
+
+      _selectorSelect(event) {
+        const ruleListSelectedId = event.target.selected;
+        let field1;
+        let field2;
+        let show2 = false;
+        field1 = this.$.field1;
+        field2 = this.$.field2;
+        if (field1) {
+          field1.label = this.label1;
+          if (ruleListSelectedId == 6) {
+            show2 = true;
+            field1.value = '';
+            field1.label = 'Min';
+            if (field2) {
+              field2.value = '';
+            }
+          }
+          this.showField2 = show2;
+        }
+      },
+
+      _selectorActivate(event) {
+        const field1 = this.$.field1;
+        const field2 = this.$.field2;
+        const ruleListIdBefore = event.target.selected;
+        const ruleListIdAfter = event.detail.selected;
+        //Between -> Any not Between
+        if (ruleListIdBefore == 6 && ruleListIdAfter != 6) {
+          field1.value = '';
+          if (field2) field2.value = '';
+        }
+        //Null -> Any not Null
+        if (!ruleListIdBefore && ruleListIdAfter) {
+          field1.disabled = false;
+          if (field2) field2.disabled = false;
+        }
+        //Any not null -> Null
+        if (ruleListIdBefore && !ruleListIdAfter) {
+          field1.value = '';
+          field1.disabled = true;
+          if (field2) {
+            field2.value = '';
+            field2.disabled = true;
+          }
+        }
+      }
+
+    });
+  }());
+  </script>
+</dom-module>

@@ -1,0 +1,66 @@
+<link rel="import" href="polyfot-query-common-icon.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-input/paper-input.html">
+
+<!--
+`polyfot-query-field`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query-field">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+      }
+      paper-input {
+        --paper-input-container-label: {
+          font-size: 16px;
+        }
+        --paper-input-container: {
+          padding: 5px 0px;
+        }
+      }
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <polyfot-query-common-icon icon="{{icon}}" opacity="{{!value}}">
+    </polyfot-query-common-icon>
+    <paper-input label="{{label}}" class="flexchild" value="{{value}}"></paper-input>
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query-field',
+
+      properties: {
+        label: {
+          type: String,
+          value: ''
+        },
+        value: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        icon: {
+          type: String,
+          value: ''
+        }
+      }
+
+    });
+  }());
+  </script>
+</dom-module>

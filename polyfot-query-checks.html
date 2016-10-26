@@ -1,0 +1,174 @@
+<link rel="import" href="polyfot-query-common-icon.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
+
+<!--
+`polyfot-query`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query-checks">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+        margin: 6px 0px 2px 0px;
+      }
+      paper-checkbox:last-child {
+        padding-right: 0px !important;
+      }
+      paper-checkbox {
+        padding: 16px 12px 8px 0px;
+        min-width: 64px;
+        --paper-checkbox-label-spacing: 6px;
+        --paper-checkbox-vertical-align: top;
+        --paper-checkbox-checkmark-color: var(--primary-color);
+        --paper-checkbox-unchecked-background-color: transparent;
+        --paper-checkbox-checked-color: transparent;
+        --paper-checkbox-checked-ink-color: transparent;
+        --paper-checkbox-unchecked-color: transparent;
+        --paper-checkbox-unchecked-ink-color: transparent;
+        --paper-checkbox-label: {
+          color: var(--paper-grey-500);
+        };
+      }
+      .checks {
+        position: relative;
+      }
+      .error {
+        color: var(--error-color);
+        font-size: 10px;
+      }
+      .below-fields {
+        position: absolute;
+        top: 36px;
+      }
+    </style>
+
+    <polyfot-query-common-icon icon="{{icon}}" opacity="{{_getOpacity(checkChange)}}">
+    </polyfot-query-common-icon>
+    <div class="checks" id='checks'>
+      <template is="dom-repeat" items="{{labels}}">
+        <paper-checkbox checked noink id="check{{item}}" label={{item}}>{{item}}
+        </paper-checkbox>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query-checks',
+
+      listeners: {
+        'iron-change': '_checkChange',
+      },
+
+      properties: {
+        labels: {
+          type: Array,
+          value: () => {
+            return [];
+          }
+        },
+        value: {
+          type: String,
+          computed: '_computeValue(checkChange)',
+          notify: true
+        },
+        icon: {
+          type: String,
+          value: '',
+        },
+        notAllUnchecked: {
+          type: Boolean,
+          value: false
+        },
+        secsErrorMessage: {
+          type: Number,
+          value: 2000
+        }
+      },
+
+      attached() {
+        this.checkChange = false;
+      },
+
+      _getOpacity(checkChange) {
+        const checks = Polymer.dom(this.$.checks).children;
+        for (let check of checks) {
+          if (check.label) {
+            const selector = '#check' + check.label;
+            const checkbox = Polymer.dom(this.$.checks).querySelector(selector);
+            if (!checkbox.checked) {
+              return false;
+            }
+          }
+        }
+        return true;
+      },
+
+      _checkChange(event) {
+        if (this.notAllUnchecked) {
+          this.checkChange = !this.checkChange;
+          const id = event.target.id;
+          const checks = Polymer.dom(this.$.checks).children;
+          let anyChecked = false;
+          for (let check of checks) {
+            if (check.label) {
+              const selector = '#check' + check.label;
+              const checkbox = Polymer.dom(this.$.checks).querySelector(selector);
+              if (checkbox.checked) {
+                anyChecked = true;
+                break;
+              }
+            }
+          }
+          if (!anyChecked) {
+            Polymer.dom(this.$.checks).querySelector('#' + id).checked = true;
+            this._createCheckErrorMessage('errorMessage', this.$.checks);
+          }
+        }
+      },
+
+      _createCheckErrorMessage(id, element) {
+        if (!document.getElementById(id)) {
+          let errorMessage = document.createElement('div');
+          Polymer.dom(errorMessage).setAttribute('id', id);
+          Polymer.dom(errorMessage).setAttribute('class', 'error below-fields');
+          errorMessage.innerHTML = 'It must be at least 1 checked!';
+          Polymer.dom(element).appendChild(errorMessage);
+          let timeout = setTimeout(() => {
+            Polymer.dom(element).removeChild(errorMessage);
+          },this.secsErrorMessage);
+        }
+      },
+
+      _computeValue(checkChange) {
+        let value = "";
+        for (let check of checks) {
+          if (check.label) {
+            const checkbox = Polymer.dom(this.$.checks).querySelector(selector);
+            if (checkbox.checked) {
+              value += "1";
+            }
+            else {
+              value += "0";
+            }
+          }
+        }
+        return value;
+      }
+
+    });
+  }());
+  </script>
+</dom-module>
