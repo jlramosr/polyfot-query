@@ -78,7 +78,7 @@
         disabled
         id='field1'
         value="{{value1}}"
-        class$="{{_getState(showField2,'no-margin')}}">
+        class$="{{_getMargin(showField2)}}">
       </paper-input>
       <template is="dom-if" if="{{showField2}}">
         <paper-input
@@ -157,8 +157,8 @@
         }
       },
 
-      _getState(condition, _class) {
-        return condition ? '' : _class;
+      _getMargin(condition) {
+        return condition ? '' : 'no-margin';
       },
 
       _selectorSelect(event) {

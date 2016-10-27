@@ -1,6 +1,6 @@
-# \<polyfot-query\>
+# <polyfot-query\>
 
-Basic form with inputs, checks for common user queries
+Form for soccer lovers to elaborate teams or players queries and view complex stats 
 
 ## Install the Polymer-CLI
 

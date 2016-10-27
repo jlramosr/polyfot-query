@@ -13,7 +13,8 @@
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.4.1",
     "paper-item": "PolymerElements/paper-item#^1.2.1",
     "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
-    "iron-icon": "polymerelements/iron-icon#^1.0.12"
+    "iron-icon": "polymerelements/iron-icon#^1.0.12",
+    "paper-styles": "PolymerElements/paper-styles#^1.1.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

@@ -1,0 +1,75 @@
+<link rel="import" href="polyfot-query-common-icon.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-input/paper-input.html">
+
+<!--
+`polyfot-query-field`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query-title">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+        margin: 12px auto 0px auto;
+        border-bottom: 1px solid var(--primary-color);
+      }
+      h2 {
+        @apply(--paper-font-title);
+        color: var(--primary-color);
+        padding-left: 2px;
+        margin: 0px;
+      }
+      iron-icon {
+        color: var(--primary-color);
+        margin-left: auto;
+        padding-right: 2px;
+        cursor: pointer;
+        padding-top: 3px;
+      }
+    </style>
+
+    <h2>{{label}}</h2>
+    <iron-icon icon='arrow-drop-down' on-tap='_compact' item-icon></iron-icon>
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query-title',
+
+      properties: {
+        label: {
+          type: String,
+          value: ''
+        },
+        for: {
+          type: String,
+          value: ''
+        }
+      },
+
+      _compact() {
+        const elementFor = document.getElementById(this.for);
+        if (elementFor.style.display =='none') {
+            elementFor.style.display = '';
+        }
+        else {
+          elementFor.style.display = 'none';
+        }
+      }
+
+    });
+  }());
+  </script>
+</dom-module>
