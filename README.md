@@ -1,4 +1,4 @@
-# <polyfot-query\>
+# Polyfot-Query
 
 Form for soccer lovers to elaborate teams or players queries and view complex stats 
 
