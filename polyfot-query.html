@@ -38,23 +38,23 @@
     <div class="content" id='teams'>
       <polyfot-query-field
         label='Team'
-        value='{{team1}}'
+        value='{{params.team1}}'
         icon='team'>
       </polyfot-query-field>
       <polyfot-query-field
         label='Opponent Team'
-        value='{{team2}}'
+        value='{{params.team2}}'
         icon='opponent'>
       </polyfot-query-field>
       <polyfot-query-checks
         not-all-unchecked
-        value="{{lv}}"
+        value="{{params.lv}}"
         labels="{{labels1}}"
         icon='lv'>
       </polyfot-query-checks>
       <polyfot-query-checks
         not-all-unchecked
-        value="{{wdl}}"
+        value="{{params.wdl}}"
         labels="{{labels2}}"
         icon='wdl'>
       </polyfot-query-checks>
@@ -62,27 +62,27 @@
         numeric between
         label0="Goals Rule"
         label1="Number of goals"
-        value0="{{goalsRule}}"
-        value1="{{goals1}}"
-        value2="{{goals2}}"
+        value0="{{params.goalsRule}}"
+        value1="{{params.goals1}}"
+        value2="{{params.goals2}}"
         icon='goal'>
       </polyfot-query-rule>
       <polyfot-query-rule
         numeric between
         label0="Diff. Goals Rule"
         label1="Number of goals"
-        value0="{{diffGoalsRule}}"
-        value1="{{diffGoals1}}"
-        value2="{{diffGoals2}}"
+        value0="{{params.diffGoalsRule}}"
+        value1="{{params.diffGoals1}}"
+        value2="{{params.diffGoals2}}"
         icon='diff-goal'>
       </polyfot-query-rule>
       <polyfot-query-rule
         numeric between
         label0="Opponent Goals Rule"
         label1="Number of goals"
-        value0="{{oppGoalsRule}}"
-        value1="{{oppGoals1}}"
-        value2="{{oppGoals2}}"
+        value0="{{params.oppGoalsRule}}"
+        value1="{{params.oppGoals1}}"
+        value2="{{params.oppGoals2}}"
         icon='opp-goal'>
       </polyfot-query-rule>
     </div>
@@ -90,16 +90,16 @@
     <div class="content" id='players'>
       <polyfot-query-field
         label='Player'
-        value='{{player1}}'
+        value='{{params.player1}}'
         icon='player'>
       </polyfot-query-field>
       <polyfot-query-rule
         numeric between
         label0="Goals Rule"
         label1="Number of goals"
-        value0="{{goalsPlayerRule}}"
-        value1="{{goals1Player}}"
-        value2="{{goals2Player}}"
+        value0="{{params.goalsPlayerRule}}"
+        value1="{{params.goals1Player}}"
+        value2="{{params.goals2Player}}"
         icon='player-goal'>
       </polyfot-query-rule>
     </div>
@@ -115,30 +115,20 @@
       is: 'polyfot-query',
 
       listeners: {
-        'polyfot-search': '_search',
-        'polyfot-clear': '_clear'
+        'polyfot-qb-search': '_search',
+        'polyfot-qb-clear': '_clear'
       },
 
       properties: {
-        team1: { type: String, notify: true },
-        team2: { type: String, notify: true },
-        lv: { type: String, notify: true },
-        wdl: { type: String, notify: true },
-        goalsRule: { type: String, notify: true },
-        goals1: { type: Number, notify: true },
-        goals2: { type: Number, notify: true },
-        diffGoalsRule: { type: String, notify: true },
-        diffGoals1: { type: Number, notify: true },
-        diffGoals2: { type: Number, notify: true },
-        oppGoalsRule: { type: String, notify: true },
-        oppGoals1: { type: Number, notify: true },
-        oppGoals2: { type: Number, notify: true },
-        goalsPlayerRule: { type: String, notify: true },
-        goals1Player: { type: Number, notify: true },
-        goals2Player: { type: Number, notify: true },
         searchText: {
           type: String,
           value: ''
+        },
+        params: {
+          type: Object,
+          value: () => {
+            return {}
+          }
         },
         labels1: {
           type: Array,
@@ -157,11 +147,13 @@
       },
 
       _search() {
-        console.log("SEARCH");
+        console.log("SEARCH polyfot-query", this.params);
+        this.fire('polyfot-search', this.params);
       },
 
       _clear() {
-        console.log("CLEAR");
+        console.log("CLEAR polyfot-query");
+        this.fire('polyfot-clear');
       }
 
     });
