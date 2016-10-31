@@ -1,7 +1,10 @@
 {
   "name": "polyfot-query",
-  "description": "Basic form with inputs, checks for common user queries",
+  "description": "Form for soccer lovers to elaborate teams or players queries and view complex stats ",
   "main": "polyfot-query.html",
+  "authors": [
+    "Jose Ramos <jlramosr@gmail.com>"
+  ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "paper-input": "PolymerElements/paper-input#^1.1.20",
