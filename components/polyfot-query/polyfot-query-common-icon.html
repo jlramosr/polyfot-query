@@ -1,0 +1,72 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-item/paper-item.html">
+
+<!--
+`polyfot-query`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query-common-icon">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+        margin-top: 8px;
+      }
+      paper-icon-item {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+        margin-right: 14px;
+      }
+      iron-icon {
+        height: 18px;
+        width: 18px;
+        margin-bottom: 8px;
+      }
+      .opacity {
+        opacity:0.20;
+      }
+    </style>
+
+    <paper-icon-item>
+      <iron-icon
+        src='../img/icons/{{icon}}.png'
+        class$="{{_getIconState(opacity)}}"
+        item-icon>
+      </iron-icon>
+    </paper-icon-item>
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query-common-icon',
+
+      properties: {
+        opacity: {
+          type: Boolean,
+          value: false
+        },
+        icon: {
+          type: String,
+          value: '',
+        }
+      },
+
+      _getIconState(opacity) {
+        return opacity ? 'opacity' : '';
+      }
+
+    });
+  }());
+  </script>
+</dom-module>

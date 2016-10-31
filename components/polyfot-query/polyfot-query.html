@@ -1,0 +1,162 @@
+<link rel="import" href="polyfot-query-title.html">
+<link rel="import" href="polyfot-query-field.html">
+<link rel="import" href="polyfot-query-checks.html">
+<link rel="import" href="polyfot-query-rule.html">
+<link rel="import" href="polyfot-query-buttons.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<!--
+`polyfot-query`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        @apply(--paper-font-body2);
+        display: block;
+        margin: 2px auto;
+        padding: 2px auto;
+      }
+      h5 {
+        margin: 4px auto;
+        @apply(--paper-font-caption);
+      }
+      .content {
+        background-color: #FCFCFC;
+        padding: 4px 6px;
+      }
+    </style>
+
+    <h5>Please enter the desired search criteria:</h5>
+    <polyfot-query-title label='Teams' for='teams'></polyfot-query-title>
+    <div class="content" id='teams'>
+      <polyfot-query-field
+        label='Team'
+        value='{{params.team1}}'
+        icon='team'>
+      </polyfot-query-field>
+      <polyfot-query-field
+        label='Opponent Team'
+        value='{{params.team2}}'
+        icon='opponent'>
+      </polyfot-query-field>
+      <polyfot-query-checks
+        not-all-unchecked
+        value="{{params.lv}}"
+        labels="{{labels1}}"
+        icon='lv'>
+      </polyfot-query-checks>
+      <polyfot-query-checks
+        not-all-unchecked
+        value="{{params.wdl}}"
+        labels="{{labels2}}"
+        icon='wdl'>
+      </polyfot-query-checks>
+      <polyfot-query-rule
+        numeric between
+        label0="Goals Rule"
+        label1="Number of goals"
+        value0="{{params.goalsRule}}"
+        value1="{{params.goals1}}"
+        value2="{{params.goals2}}"
+        icon='goal'>
+      </polyfot-query-rule>
+      <polyfot-query-rule
+        numeric between
+        label0="Diff. Goals Rule"
+        label1="Number of goals"
+        value0="{{params.diffGoalsRule}}"
+        value1="{{params.diffGoals1}}"
+        value2="{{params.diffGoals2}}"
+        icon='diff-goal'>
+      </polyfot-query-rule>
+      <polyfot-query-rule
+        numeric between
+        label0="Opponent Goals Rule"
+        label1="Number of goals"
+        value0="{{params.oppGoalsRule}}"
+        value1="{{params.oppGoals1}}"
+        value2="{{params.oppGoals2}}"
+        icon='opp-goal'>
+      </polyfot-query-rule>
+    </div>
+    <polyfot-query-title label='Players' for='players'></polyfot-query-title>
+    <div class="content" id='players'>
+      <polyfot-query-field
+        label='Player'
+        value='{{params.player1}}'
+        icon='player'>
+      </polyfot-query-field>
+      <polyfot-query-rule
+        numeric between
+        label0="Goals Rule"
+        label1="Number of goals"
+        value0="{{params.goalsPlayerRule}}"
+        value1="{{params.goals1Player}}"
+        value2="{{params.goals2Player}}"
+        icon='player-goal'>
+      </polyfot-query-rule>
+    </div>
+    <polyfot-query-buttons></polyfot-query-buttons>
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query',
+
+      listeners: {
+        'polyfot-qb-search': '_search',
+        'polyfot-qb-clear': '_clear'
+      },
+
+      properties: {
+        searchText: {
+          type: String,
+          value: ''
+        },
+        params: {
+          type: Object,
+          value: () => {
+            return {}
+          }
+        },
+        labels1: {
+          type: Array,
+          value: () => {
+            return ['Local','Visitor'];
+          },
+          readOnly: true
+        },
+        labels2: {
+          type: Array,
+          value: () => {
+            return ['Wins','Draws', 'Losses'];
+          },
+          readOnly: true
+        }
+      },
+
+      _search() {
+        console.log("SEARCH polyfot-query", this.params);
+        this.fire('polyfot-search', this.params);
+      },
+
+      _clear() {
+        console.log("CLEAR polyfot-query");
+        this.fire('polyfot-clear');
+      }
+
+    });
+  }());
+  </script>
+</dom-module>

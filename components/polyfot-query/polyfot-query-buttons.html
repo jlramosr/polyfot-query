@@ -1,0 +1,75 @@
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/social-icons.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<!--
+`polyfot-query-field`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="polyfot-query-buttons">
+  <template>
+
+    <style is='custom-style' include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+        margin: 36px auto;
+      }
+      paper-icon-item {
+        margin-right: 6px;
+      }
+      paper-button {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+        --paper-button: {
+          min-width: 102px;
+          background-color: #FFF;
+          border: 1px solid var(--primary-color);
+          color: var(--primary-color);
+          font-size: 16px;
+          margin: 0px 16px;
+        }
+      }
+    </style>
+
+    <paper-button on-tap='_search'>
+      <paper-icon-item>
+        <iron-icon icon='search' item-icon></iron-icon>
+      </paper-icon-item>Search
+    </paper-button>
+    <paper-button on-tap='_clear'>
+      <paper-icon-item>
+        <iron-icon icon='clear' item-icon></iron-icon>
+      </paper-icon-item>Clear
+    </paper-button>
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'polyfot-query-buttons',
+
+      _search() {
+        this.fire('polyfot-qb-search');
+      },
+
+      _clear() {
+        this.fire('polyfot-qb-clear');
+      }
+
+    });
+  }());
+  </script>
+</dom-module>
